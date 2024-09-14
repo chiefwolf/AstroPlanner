@@ -1,0 +1,6 @@
+Messier Number,Apparent Magnitude,Max Dimension,Right Ascension,Declination,Common Name,Object Type
+M001,8.4,420",05h34m31.94s,22d00'52.2",Crab Nebula, Supernova Remnant,
+M027,7.4,8',19h59m36.34s,22d43'16.09",Dumbbell Nebula,Planetary Nebula,
+M031,3.4,3.167d,00h42m44.3s,41d16'09",Andromeda Galaxy,Spiral Galaxy,
+M032,8.1,8.7',00h42m41.8s,40d51'55",Andromeda Satellite #1,Dwarf Elliptical Galaxy,
+M110,8.5,21.9',00h40m22.1s,41d41'07",n/a,Dwarf Elliptical Galaxy,
