@@ -23,24 +23,28 @@ class MessierBuilder( UniverseBuilder ):
         
         objects:List[ CelestialObject ] = []
         
+        # Single threaded, but it really doesn't to be multi-threaded because of how few Messier Objects there are
         with open( self.catalog_location, mode='r' ) as catalog:
-            for idx, line in enumerate( catalog ):
-                if not( idx == 0 ): # Skip the first line which explains the format...
-                    vals = line.split( ',' )
-                    
-                    if( ( len(vals) > 1 ) and ( float(vals[1]) <= min_magnitude ) ):
-                        # Need to convert from the format in the files to an actually usable format...
-                        # val[0] is already a string, val[1] is easily transferred to a float
+            for line in  catalog :
+                vals = line.split( ',' )
 
-                        # val[2] is in the format degrees - minutes - seconds...
-                        max_dim = degree_minute_second_to_float( vals[2] )
-                        right_ascension = hour_minute_second_to_float( vals[3] )
-                        declination = degree_minute_second_to_float( vals[4] )
+                if( vals[0][0] == '#' ):
+                    # Pound is a comment line, skip it
+                    continue
+                
+                if( ( len(vals) > 1 ) and ( float(vals[1]) <= min_magnitude ) ):
+                    # Need to convert from the format in the files to an actually usable format...
+                    # val[0] is already a string, val[1] is easily transferred to a float
 
-                        if( vals[5].lower() == 'n/a' ):
-                            vals[5] = vals[0]
+                    # val[2] is in the format degrees - minutes - seconds...
+                    max_dim = degree_minute_second_to_float( vals[2] )
+                    right_ascension = hour_minute_second_to_float( vals[3] )
+                    declination = degree_minute_second_to_float( vals[4] )
 
-                        objects.append( CelestialObject( designation=str(vals[0]), magnitude=float(vals[1]), max_dimension=max_dim, right_ascension=right_ascension, declination=declination, common_name=vals[5], object_type=vals[6] ) )
+                    if( vals[5].lower() == 'n/a' ):
+                        vals[5] = vals[0]
+
+                    objects.append( CelestialObject( designation=str(vals[0]), magnitude=float(vals[1]), max_dimension=max_dim, right_ascension=right_ascension, declination=declination, common_name=vals[5], object_type=vals[6] ) )
 
         self.logger.log( f'Building Messier Objects took: {datetime.datetime.now() - time_start}' )
 

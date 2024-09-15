@@ -1,4 +1,5 @@
-Messier Number,Apparent Magnitude,Max Dimension,Right Ascension,Declination,Common Name,Object Type
+# Messier Object catalog taken from Wikipedia: https://en.wikipedia.org/wiki/Messier_object
+# Messier Number,Apparent Magnitude,Max Dimension,Right Ascension,Declination,Common Name,Object Type
 M001,8.4,420",05h34m31.94s,22d00'52.2",Crab Nebula, Supernova Remnant,
 M002,6.5,16',21h33m27.02s,-00d49'23.7",n/a,Globular Cluster,
 M003,6.2,18',13h42m11.62s,28d22'38.2",n/a,Globular Cluster,
