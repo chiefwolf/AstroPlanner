@@ -59,7 +59,7 @@ class Logger:
     
     def log( self, log:str ) -> bool:
         '''
-        log will log the given string to the log file, and to the console if requested at the LOG level
+        Log will log the given string to the log file, and to the console if requested at the LOG level
         '''
         log_str = f'[LOG]{self._get_time()}{log}'
 
@@ -72,7 +72,7 @@ class Logger:
     
     def warning( self, log:str ) -> bool:
         '''
-        warning will log the given string to the log file, and to the console if requested at the WARNING level
+        Warning will log the given string to the log file, and to the console if requested at the WARNING level
         '''
         log_str = f'[WARNING]{self._get_time()}{log}'
 
@@ -85,7 +85,7 @@ class Logger:
     
     def error( self, log:str, error_code:int ):
         '''
-        error will log the given error to the log file, to the console if requested at ERROR level, and will exit the program with error_code 
+        Error will log the given error to the log file, to the console if requested at ERROR level, and will exit the program with error_code 
         '''
         log_str = f'[ERROR]{self._get_time()}{log}'
         self.file.write( log_str )
@@ -97,7 +97,7 @@ class Logger:
     
     def delayed_warning( self, log:str ) -> None:
         '''
-        log will be logged as a warning, and can later be used to stop execution of the program
+        Log will be logged as a warning, and can later be used to stop execution of the program
         '''
 
         self.warning( f'[DELAYED] {log}' )
@@ -107,6 +107,9 @@ class Logger:
         return
     
     def execute_delayed_warning( self ) -> None:
+        '''
+        If the delayed warning flag was set before, error out of the program
+        '''
         if( self.delayed_warning == True ):
             self.error( "Delayed warning errored out program, see above in log file for more information", 1 )
 
