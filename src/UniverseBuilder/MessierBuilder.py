@@ -17,16 +17,24 @@
 from typing import *
 import os
 import datetime
+from typing import Dict
 
 from src.UniverseBuilder.UniverseBuilder import UniverseBuilder
 from src.UniverseBuilder.CelestialObject import CelestialObject
 from src.CoordinateSystem.SphericalCoordinateSystems import SphericalCoordinateSystems as scs
 from src.Logger import Logger
 from src.utils.angle_conversions import degree_minute_second_to_float, hour_minute_second_to_float
+from src.IConfigurable import IConfigurable
+from src.utils.DirectoryHelper import DirectoryHelper
 
-class MessierBuilder( UniverseBuilder ):
-    def __init__( self, catalog_location: Union[ str, bytes, os.PathLike ], logger:Logger, max_processes:int = 1 ):
+class MessierBuilder( UniverseBuilder, IConfigurable ):
+    def __init__( self, logger:Logger, dir_helper:DirectoryHelper, catalog_location: Union[ str, bytes, os.PathLike ]="${catalogs}/simple_messier_list.txt", max_processes:int = 1, use_messier:bool = True ):
         super().__init__( catalog_location, logger, max_processes )
+        self.json_section_name = "messier_builder"
+        self.default_vals = { "catalog_location":catalog_location, "num_processes":max_processes, "use_messier":use_messier }
+        self.log = logger
+        self.dir_helper:DirectoryHelper = dir_helper
+        self.use_messier:bool = use_messier
 
     def get_objects(self, min_magnitude: float = 9) -> List[ CelestialObject ]:
 
@@ -61,3 +69,22 @@ class MessierBuilder( UniverseBuilder ):
         self.logger.log( f'Building Messier Objects took: {datetime.datetime.now() - time_start}' )
 
         return objects
+
+    def register_values(self, vals: Dict) -> None:
+        super().register_values(vals)
+
+        for key in vals:
+            if( key == "catalog_location" ):
+                self.catalog_location = self.dir_helper.replace_alias_strings( vals[key] )
+            if( key == "num_processes" ):
+                self.max_processes = int( vals[key] )
+            if( key == "use_messier" ):
+                self.use_messier = bool( vals[key] )
+                
+        return
+    
+    def update_catalog_location( self, loc:str ):
+        self.catalog_location = loc
+        self.default_vals['catalog_location'] = self.dir_helper.replace_dir_strings( loc )
+
+        return

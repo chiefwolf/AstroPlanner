@@ -1,0 +1,6 @@
+{
+    "messier_builder": {
+        "catalog_location": "${catalogs}/simple_mesier_list.txt]",
+        "num_processes": 1
+    }
+}

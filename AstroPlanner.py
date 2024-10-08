@@ -22,15 +22,25 @@ from src.utils.angle_conversions import degree_minute_second_to_float
 
 from src.UniverseBuilder.MessierBuilder import MessierBuilder
 from src.Logger import Logger
+from src.ConfigHandler import ConfigHandler
+from src.utils.DirectoryHelper import DirectoryHelper
 
 def main():
     print( "Hello World!" )
 
     genesis = Logger( 'logs/genesis.txt' )
 
+    dir_helper = DirectoryHelper()
+
+    universal_constants = ConfigHandler( dir_helper, genesis )
+
     big_bang = MessierBuilder( 'catalog/simple_messier_list.txt', genesis, 1 )
 
+    universal_constants.register_configurable( big_bang )
+
     celestial_objects = big_bang.get_objects()
+    
+    universal_constants.write_config()
 
     for object in celestial_objects:
         print( f'{object.common_name}:' )
